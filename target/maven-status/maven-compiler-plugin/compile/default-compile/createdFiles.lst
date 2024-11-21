@@ -1,6 +1,13 @@
+mate\academy\config\MapperConfig.class
+mate\academy\exception\EntityNotFoundException.class
+mate\academy\repository\BookRepositoryImpl.class
+mate\academy\BookStoreApplication.class
+mate\academy\mapper\BookMapper.class
 mate\academy\service\BookService.class
 mate\academy\repository\BookRepository.class
-mate\academy\repository\BookRepositoryImpl.class
+mate\academy\controller\BookController.class
+mate\academy\dto\CreateBookRequestDto.class
 mate\academy\model\Book.class
-mate\academy\BookStoreApplication.class
+mate\academy\dto\BookDto.class
 mate\academy\service\BookServiceImpl.class
+mate\academy\mapper\impl\BookMapperImpl.class

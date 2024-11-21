@@ -2,6 +2,18 @@
 <checkstyle version="9.3">
 <file name="C:\Users\matwo\IdeaProjects\book-store\src\main\java\mate\academy\BookStoreApplication.java">
 </file>
+<file name="C:\Users\matwo\IdeaProjects\book-store\src\main\java\mate\academy\config\MapperConfig.java">
+</file>
+<file name="C:\Users\matwo\IdeaProjects\book-store\src\main\java\mate\academy\controller\BookController.java">
+</file>
+<file name="C:\Users\matwo\IdeaProjects\book-store\src\main\java\mate\academy\dto\BookDto.java">
+</file>
+<file name="C:\Users\matwo\IdeaProjects\book-store\src\main\java\mate\academy\dto\CreateBookRequestDto.java">
+</file>
+<file name="C:\Users\matwo\IdeaProjects\book-store\src\main\java\mate\academy\exception\EntityNotFoundException.java">
+</file>
+<file name="C:\Users\matwo\IdeaProjects\book-store\src\main\java\mate\academy\mapper\BookMapper.java">
+</file>
 <file name="C:\Users\matwo\IdeaProjects\book-store\src\main\java\mate\academy\model\Book.java">
 </file>
 <file name="C:\Users\matwo\IdeaProjects\book-store\src\main\java\mate\academy\repository\BookRepository.java">
@@ -11,6 +23,8 @@
 <file name="C:\Users\matwo\IdeaProjects\book-store\src\main\java\mate\academy\service\BookService.java">
 </file>
 <file name="C:\Users\matwo\IdeaProjects\book-store\src\main\java\mate\academy\service\BookServiceImpl.java">
+</file>
+<file name="C:\Users\matwo\IdeaProjects\book-store\src\test\java\mate\academy\BookStoreApplicationTests.java">
 </file>
 <file name="C:\Users\matwo\IdeaProjects\book-store\src\main\resources\application.properties">
 </file>

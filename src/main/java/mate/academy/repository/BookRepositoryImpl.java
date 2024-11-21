@@ -1,6 +1,7 @@
 package mate.academy.repository;
 
 import java.util.List;
+import mate.academy.exception.EntityNotFoundException;
 import mate.academy.model.Book;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -43,5 +44,14 @@ public class BookRepositoryImpl implements BookRepository {
     public List<Book> findAll() {
         Session session = sessionFactory.openSession();
         return session.createQuery("select b from Book b", Book.class).getResultList();
+    }
+
+    @Override
+    public Book getBookById(long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.find(Book.class, id);
+        } catch (RuntimeException ex) {
+            throw new EntityNotFoundException("Could not get a book with id: " + id);
+        }
     }
 }
