@@ -1,1 +1,1 @@
-Part II of the project Book Store.
+Part II of the project.
