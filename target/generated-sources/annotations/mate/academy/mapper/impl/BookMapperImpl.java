@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-11-21T15:09:43+0100",
+    date = "2024-11-25T15:21:00+0100",
     comments = "version: 1.6.3, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
@@ -54,6 +54,7 @@ public class BookMapperImpl implements BookMapper {
 
         Book book = new Book();
 
+        book.setId( createBookRequestDto.getId() );
         if ( createBookRequestDto.getTitle() != null ) {
             book.setTitle( createBookRequestDto.getTitle() );
         }
