@@ -1,22 +1,19 @@
 package mate.academy.repository;
 
 import java.util.List;
+import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 import mate.academy.exception.EntityNotFoundException;
 import mate.academy.model.Book;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+@RequiredArgsConstructor
 @Repository
 public class BookRepositoryImpl implements BookRepository {
     private final SessionFactory sessionFactory;
-
-    @Autowired
-    public BookRepositoryImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     @Override
     public Book save(Book book) {
@@ -47,9 +44,9 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public Book getBookById(long id) {
+    public Optional<Book> findBookById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.find(Book.class, id);
+            return Optional.of(session.find(Book.class, id));
         } catch (RuntimeException ex) {
             throw new EntityNotFoundException("Could not get a book with id: " + id);
         }

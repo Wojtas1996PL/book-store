@@ -5,7 +5,6 @@ import lombok.Data;
 
 @Data
 public class CreateBookRequestDto {
-    private long id;
     private String title;
     private String author;
     private String isbn;
