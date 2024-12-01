@@ -9,10 +9,14 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import lombok.Data;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 @Entity
-@Table(name = "book")
+@Table(name = "books")
 @Data
+@SQLDelete(sql = "UPDATE books SET isDeleted = true WHERE id =?")
+@Where(clause = "isDeleted = false")
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,5 +31,8 @@ public class Book {
     @NotNull
     private BigDecimal price;
     private String description;
+    @Column(name = "cover_image")
     private String coverImage;
+    @Column(name = "is_deleted", nullable = false, columnDefinition = "BIT")
+    private boolean isDeleted = false;
 }
