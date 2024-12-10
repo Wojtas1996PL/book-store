@@ -1,12 +1,15 @@
 package mate.academy.repository;
 
-import java.util.List;
+import java.util.Optional;
 import mate.academy.model.Book;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
-public interface BookRepository {
-    Book save(Book book);
+@Repository
+public interface BookRepository extends JpaRepository<Book, Long> {
 
-    List<Book> findAll();
-
-    Book getBookById(long id);
+    @Query(name = "SELECT * FROM books WHERE UPPER(id) LIKE UPPER(:id)",
+            nativeQuery = true)
+    Optional<Book> findBookById(Long id);
 }
