@@ -1,4 +1,4 @@
-package mate.academy.repository.book;
+package mate.academy.service.repository.book;
 
 import java.util.Optional;
 import mate.academy.model.Book;

@@ -8,9 +8,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
         componentModel = "spring",
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
-        // Will NullValuePropertyMappingStrategy.IGNORE prevent NPE in classes?
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-        // How should I name implementation package? I tried mate.academy.mapper but it didn't work.
         implementationPackage = "<PACKAGE_NAME>.impl"
 )
 public class MapperConfig {
