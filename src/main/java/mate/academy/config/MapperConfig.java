@@ -12,5 +12,4 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
         implementationPackage = "<PACKAGE_NAME>.impl"
 )
 public class MapperConfig {
-
 }
