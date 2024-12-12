@@ -3,10 +3,12 @@ package mate.academy.controller;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.BookDto;
+import mate.academy.dto.BookSearchParametersDto;
 import mate.academy.dto.CreateBookRequestDto;
 import mate.academy.mapper.BookMapper;
 import mate.academy.model.Book;
 import mate.academy.service.BookService;
+import mate.academy.service.repository.book.BookSpecificationBuilder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
     private final BookService bookService;
     private final BookMapper bookMapper;
+    private final BookSpecificationBuilder bookSpecificationBuilder;
 
     @GetMapping
     public List<BookDto> getAll() {
@@ -60,4 +64,10 @@ public class BookController {
         bookService.updateBook(id, mappedBook);
         return "The book: " + mappedBook.getTitle() + " has been updated.";
     }
+
+    @GetMapping("/search")
+    public List<BookDto> searchBooks(@RequestParam BookSearchParametersDto searchParameters) {
+        return bookService.search(searchParameters).stream().map(bookMapper::toDto).toList();
+    }
+
 }
