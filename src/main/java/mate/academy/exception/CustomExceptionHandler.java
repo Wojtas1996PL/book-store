@@ -47,10 +47,11 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<?> handleEntityNotFoundException(EntityNotFoundException ex,
-                                                           WebRequest request) {
+    protected ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex,
+                                                                   WebRequest request,
+                                                                   HttpHeaders httpHeaders) {
         String bodyOfResponse = "Entity not found";
         return handleExceptionInternal(ex, bodyOfResponse,
-                new HttpHeaders(), HttpStatus.NOT_FOUND, request);
+                httpHeaders, HttpStatus.NOT_FOUND, request);
     }
 }
