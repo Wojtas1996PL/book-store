@@ -77,8 +77,12 @@ public class BookController {
 
     @Operation(summary = "Search books using parameters")
     @GetMapping("/search")
-    public List<BookDto> searchBooks(@RequestParam BookSearchParametersDto searchParameters) {
-        return bookService.search(searchParameters).stream().map(bookMapper::toDto).toList();
+    public List<BookDto> searchBooks(@RequestParam BookSearchParametersDto searchParameters,
+                                     Pageable pageable) {
+        return bookService
+                .search(searchParameters, pageable)
+                .stream()
+                .map(bookMapper::toDto)
+                .toList();
     }
-
 }
