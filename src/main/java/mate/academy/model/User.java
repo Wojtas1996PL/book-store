@@ -24,9 +24,12 @@ public class User {
     @Column(unique = true)
     private String email;
     @NotNull
+    @Column(name = "first_name")
     private String firstName;
     @NotNull
+    @Column(name = "last_name")
     private String lastName;
+    @Column(name = "shipping_address")
     private String shippingAddress;
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted;
