@@ -9,8 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
-
-    @Query(name = "SELECT * FROM books WHERE UPPER(id) LIKE UPPER(:id)",
+    @Query(value = "SELECT * FROM books WHERE UPPER(id) LIKE UPPER(:id)",
             nativeQuery = true)
     Optional<Book> findBookById(Long id);
 }
