@@ -2,12 +2,14 @@ package mate.academy.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -40,15 +42,20 @@ public class User implements UserDetails {
     private String shippingAddress;
     @Column(name = "is_deleted", nullable = false)
     private boolean isDeleted;
-    @OneToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private Set<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (email.startsWith("admin@")) {
-            return List.of(new SimpleGrantedAuthority("ADMIN"));
+        List<SimpleGrantedAuthority> list = new ArrayList<>();
+        for (Role role : roles) {
+            if (role.equals(RoleName.USER)) {
+                list.add(new SimpleGrantedAuthority("USER"));
+            } else if (role.equals(RoleName.ADMIN)) {
+                list.add(new SimpleGrantedAuthority("ADMIN"));
+            }
         }
-        return List.of(new SimpleGrantedAuthority("USER"));
+        return list;
     }
 
     @Override
