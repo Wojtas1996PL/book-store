@@ -7,6 +7,7 @@ import mate.academy.dto.user.UserLoginRequestDto;
 import mate.academy.dto.user.UserLoginResponseDto;
 import mate.academy.dto.user.UserRegistrationRequestDto;
 import mate.academy.dto.user.UserResponseDto;
+import mate.academy.exception.LoginException;
 import mate.academy.exception.RegistrationException;
 import mate.academy.security.AuthenticationService;
 import mate.academy.service.UserService;
@@ -27,8 +28,9 @@ public class AuthenticationController {
     }
 
     @Operation(summary = "Login user")
-    @PostMapping("api/auth/login")
-    public UserLoginResponseDto login(@RequestBody UserLoginRequestDto login) {
-        return authenticationService.authenticate(login);
+    @PostMapping("/api/auth/login")
+    public UserLoginResponseDto login(@RequestBody UserLoginRequestDto loginRequest)
+            throws LoginException {
+        return authenticationService.authenticate(loginRequest);
     }
 }
