@@ -5,3 +5,5 @@ databaseChangeLog:
       file: db/changelog/changes/create-table-users.yaml
   - include:
       file: db/changelog/changes/add-new-users.yaml
+  - include:
+      file: db/changelog/changes/create-table-categories.yaml

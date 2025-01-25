@@ -3,6 +3,7 @@ package mate.academy.service;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.book.BookDto;
+import mate.academy.dto.book.BookDtoWithoutCategoryIds;
 import mate.academy.dto.book.BookSearchParametersDto;
 import mate.academy.exception.EntityNotFoundException;
 import mate.academy.mapper.BookMapper;
@@ -56,7 +57,7 @@ public class BookServiceImpl implements BookService {
                     b.setCoverImage(b.getCoverImage());
                     return bookRepository.save(book);
                 })
-                .orElseGet(() -> bookRepository.save(book));
+                .orElseThrow(() -> new RuntimeException("Could not update book by id: " + id));
     }
 
     @Override
@@ -64,5 +65,13 @@ public class BookServiceImpl implements BookService {
         Specification<Book> bookSpecification = bookSpecificationBuilder
                 .build(bookSearchParametersDto);
         return bookRepository.findAll(bookSpecification).stream().toList();
+    }
+
+    @Override
+    public List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long id) {
+        return bookRepository
+                .findAllByCategoryId(id)
+                .stream().map(bookMapper::toDtoWithoutCategories)
+                .toList();
     }
 }
