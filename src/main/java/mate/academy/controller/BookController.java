@@ -81,6 +81,7 @@ public class BookController {
         return "The book: " + mappedBook.getTitle() + " has been updated.";
     }
 
+    @PreAuthorize("USER")
     @Operation(summary = "Search books using parameters")
     @GetMapping("/search")
     public List<BookDto> searchBooks(@RequestParam BookSearchParametersDto searchParameters,

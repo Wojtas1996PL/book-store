@@ -23,13 +23,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto save(Book book) {
-        bookRepository.save(book);
-        return bookMapper.toDto(book);
+        return bookMapper.toDto(bookRepository.save(book));
     }
 
     @Override
     public List<Book> findAll(Pageable pageable) {
-        return bookRepository.findAll()
+        return bookRepository.findAll(pageable)
                 .stream()
                 .toList();
     }
@@ -49,7 +48,6 @@ public class BookServiceImpl implements BookService {
     public Book updateBook(Long id, Book book) {
         return bookRepository.findBookById(id)
                 .map(b -> {
-                    b.setId(b.getId());
                     b.setAuthor(b.getAuthor());
                     b.setIsbn(b.getIsbn());
                     b.setDescription(b.getDescription());
@@ -61,17 +59,23 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> search(BookSearchParametersDto bookSearchParametersDto, Pageable pageable) {
+    public List<Book> search(BookSearchParametersDto bookSearchParametersDto,
+                             Pageable pageable) {
         Specification<Book> bookSpecification = bookSpecificationBuilder
                 .build(bookSearchParametersDto);
-        return bookRepository.findAll(bookSpecification).stream().toList();
+        return bookRepository.findAll(bookSpecification,
+                pageable)
+                .stream()
+                .toList();
     }
 
     @Override
-    public List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long id) {
+    public List<BookDtoWithoutCategoryIds> findBooksWithoutCategoryId(Long id,
+                                                                      Pageable pageable) {
         return bookRepository
-                .findAllByCategoryId(id)
-                .stream().map(bookMapper::toDtoWithoutCategories)
+                .findAllByCategoryId(id, pageable)
+                .stream()
+                .map(bookMapper::toDtoWithoutCategories)
                 .toList();
     }
 }

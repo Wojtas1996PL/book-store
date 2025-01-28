@@ -18,7 +18,9 @@ public interface BookService {
 
     Book updateBook(Long id, Book book);
 
-    List<Book> search(BookSearchParametersDto bookSearchParametersDto, Pageable pageable);
+    List<Book> search(BookSearchParametersDto bookSearchParametersDto,
+                      Pageable pageable);
 
-    List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long id);
+    List<BookDtoWithoutCategoryIds> findBooksWithoutCategoryId(Long id,
+                                                               Pageable pageable);
 }

@@ -8,6 +8,8 @@ import mate.academy.dto.book.BookDtoWithoutCategoryIds;
 import mate.academy.dto.category.CategoryDto;
 import mate.academy.service.BookService;
 import mate.academy.service.CategoryService;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,39 +23,46 @@ public class CategoryController {
     private final BookService bookService;
     private final CategoryService categoryService;
 
+    @PreAuthorize("ADMIN")
     @Operation(summary = "Create category")
     @PostMapping("/api/categories")
     public CategoryDto createCategory(CategoryDto categoryDto) {
         return categoryService.save(categoryDto);
     }
 
+    @PreAuthorize("USER")
     @Operation(summary = "Get list of all categories")
     @GetMapping("/api/categories")
-    public List<CategoryDto> getAll() {
-        return categoryService.findAll();
+    public List<CategoryDto> getAll(Pageable pageable) {
+        return categoryService.findAll(pageable);
     }
 
+    @PreAuthorize("USER")
     @Operation(summary = "Get category by id")
     @GetMapping("/api/categories/{id}")
     public CategoryDto getCategoryById(Long id) {
         return categoryService.getById(id);
     }
 
+    @PreAuthorize("ADMIN")
     @Operation(summary = "Update category by id")
     @PutMapping("/api/categories/{id}")
     public CategoryDto updateCategory(Long id, CategoryDto categoryDto) {
         return categoryService.update(id, categoryDto);
     }
 
+    @PreAuthorize("ADMIN")
     @Operation(summary = "Delete category by id")
     @DeleteMapping("/api/categories/{id}")
     public void deleteCategory(Long id) {
         categoryService.deleteById(id);
     }
 
+    @PreAuthorize("USER")
     @Operation(summary = "Get list of books by specific category")
     @GetMapping("/api/categories/{id}/books")
-    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(Long id) {
-        return bookService.findAllByCategoryId(id);
+    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(Long id,
+                                                                Pageable pageable) {
+        return bookService.findBooksWithoutCategoryId(id, pageable);
     }
 }
