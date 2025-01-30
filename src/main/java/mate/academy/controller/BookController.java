@@ -11,7 +11,6 @@ import mate.academy.dto.book.CreateBookRequestDto;
 import mate.academy.mapper.BookMapper;
 import mate.academy.model.Book;
 import mate.academy.service.BookService;
-import mate.academy.service.repository.book.BookSpecificationBuilder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,7 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookController {
     private final BookService bookService;
     private final BookMapper bookMapper;
-    private final BookSpecificationBuilder bookSpecificationBuilder;
 
     @PreAuthorize("USER")
     @Operation(summary = "Get list of all books")
