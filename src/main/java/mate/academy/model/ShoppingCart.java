@@ -1,13 +1,11 @@
 package mate.academy.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -23,11 +21,8 @@ public class ShoppingCart implements Serializable {
     private Long id;
     @NotNull
     private User user;
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "cart_items",
-            joinColumns = @JoinColumn(name = "shopping_cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "cart_item_id")
-    )
+    @OneToMany(mappedBy = "shoppingCart",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private Set<CartItem> cartItems;
 }
