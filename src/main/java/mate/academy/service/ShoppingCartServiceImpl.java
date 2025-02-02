@@ -2,8 +2,10 @@ package mate.academy.service;
 
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import mate.academy.dto.cart.item.CartItemRequestDto;
 import mate.academy.dto.shopping.cart.ShoppingCartDto;
 import mate.academy.exception.EntityNotFoundException;
+import mate.academy.mapper.BookMapper;
 import mate.academy.mapper.ShoppingCartMapper;
 import mate.academy.model.Book;
 import mate.academy.model.CartItem;
@@ -20,6 +22,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
 
     @Override
     public ShoppingCartDto getById(Long id) {
@@ -29,22 +32,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     }
 
     @Override
-    public ShoppingCartDto addBook(Long userId, Long bookId, int quantity) {
-        ShoppingCart shoppingCart = shoppingCartRepository.findShoppingCartById(userId)
-                .orElseGet(() -> {
-                    ShoppingCart newCart = new ShoppingCart();
-                    newCart.setUser(userRepository.findById(userId)
-                            .orElseThrow(() -> new EntityNotFoundException("User with id: "
-                                    + userId + " does not exist in a database")));
-                    return shoppingCartRepository.save(newCart);
-                });
-        Book book = bookRepository.findById(bookId)
-                .orElseThrow(() ->
-                        new EntityNotFoundException("Book with id: " + bookId + " not found"));
+    public ShoppingCartDto addBook(Long userId, CartItemRequestDto cartItemRequestDto) {
+        ShoppingCart shoppingCart = createNewShoppingCart(userId);
+        Book book = bookMapper.optionalToEntity(bookRepository
+                .findById(cartItemRequestDto.getBookId()));
         CartItem cartItem = new CartItem();
         cartItem.setShoppingCart(shoppingCart);
         cartItem.setBook(book);
-        cartItem.setQuantity(quantity);
+        cartItem.setQuantity(cartItemRequestDto.getQuantity());
         shoppingCart.getCartItems().add(cartItem);
         shoppingCartRepository.save(shoppingCart);
         return shoppingCartMapper.toDto(shoppingCart);
@@ -70,5 +65,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public void deleteById(Long id) {
         shoppingCartRepository.deleteById(id);
+    }
+
+    private ShoppingCart createNewShoppingCart(Long userId) {
+        return shoppingCartRepository.findShoppingCartById(userId)
+                .orElseGet(() -> {
+                    ShoppingCart newCart = new ShoppingCart();
+                    newCart.setUser(userRepository.findById(userId)
+                            .orElseThrow(() -> new EntityNotFoundException("User with id: "
+                                    + userId + " does not exist in a database")));
+                    return shoppingCartRepository.save(newCart);
+                });
     }
 }
