@@ -23,42 +23,42 @@ public class CategoryController {
     private final BookService bookService;
     private final CategoryService categoryService;
 
-    @PreAuthorize("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create category")
     @PostMapping("/api/categories")
     public CategoryDto createCategory(CategoryDto categoryDto) {
         return categoryService.save(categoryDto);
     }
 
-    @PreAuthorize("USER")
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Get list of all categories")
     @GetMapping("/api/categories")
     public List<CategoryDto> getAll(Pageable pageable) {
         return categoryService.findAll(pageable);
     }
 
-    @PreAuthorize("USER")
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Get category by id")
     @GetMapping("/api/categories/{id}")
     public CategoryDto getCategoryById(Long id) {
         return categoryService.getById(id);
     }
 
-    @PreAuthorize("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Update category by id")
     @PutMapping("/api/categories/{id}")
     public CategoryDto updateCategory(Long id, CategoryDto categoryDto) {
         return categoryService.update(id, categoryDto);
     }
 
-    @PreAuthorize("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Delete category by id")
     @DeleteMapping("/api/categories/{id}")
     public void deleteCategory(Long id) {
         categoryService.deleteById(id);
     }
 
-    @PreAuthorize("USER")
+    @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Get list of books by specific category")
     @GetMapping("/api/categories/{id}/books")
     public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(Long id,
