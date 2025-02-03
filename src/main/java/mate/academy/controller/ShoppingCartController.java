@@ -49,7 +49,7 @@ public class ShoppingCartController {
     @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Delete cart using id")
     @DeleteMapping("/cart-items/{cartItemId}")
-    public ShoppingCartDto deleteById(Long id) {
-        return shoppingCartService.getById(id);
+    public void deleteById(Long id) {
+        shoppingCartService.deleteById(id);
     }
 }
