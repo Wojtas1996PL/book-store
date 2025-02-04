@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -36,4 +37,6 @@ public class Order implements Serializable {
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     private Set<OrderItem> orderItems = new HashSet<>();
+    @OneToOne
+    private ShoppingCart shoppingCart;
 }

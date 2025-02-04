@@ -11,7 +11,9 @@ import mate.academy.mapper.OrderMapper;
 import mate.academy.model.Order;
 import mate.academy.model.OrderItem;
 import mate.academy.model.Status;
+import mate.academy.model.User;
 import mate.academy.service.repository.order.OrderRepository;
+import mate.academy.service.repository.user.UserRepository;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +23,16 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final OrderItemMapper orderItemMapper;
+    private final UserRepository userRepository;
 
     @Override
-    public OrderDto placeAnOrder(Order order) {
-        return orderMapper.toDto(orderRepository.save(order));
+    public OrderDto placeAnOrder(Long userId, Order order) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User with id: "
+                        + userId + " does not exist in a database"));
+        user.getShoppingCart().setOrder(order);
+        userRepository.save(user);
+        return orderMapper.toDto(order);
     }
 
     @Override
