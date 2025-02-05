@@ -8,7 +8,7 @@ import mate.academy.model.Status;
 import org.springframework.data.domain.Pageable;
 
 public interface OrderService {
-    OrderDto placeAnOrder(Long userId, Order order);
+    OrderDto createOrder(Order order);
 
     List<OrderDto> getAllOrders(Pageable pageable);
 

@@ -2,9 +2,11 @@ package mate.academy.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.order.OrderDto;
+import mate.academy.dto.order.OrderRequestDto;
 import mate.academy.dto.order.item.OrderItemDto;
 import mate.academy.mapper.OrderMapper;
 import mate.academy.model.Status;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,12 +29,13 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderMapper orderMapper;
 
+    @Transactional
     @PreAuthorize("hasRole('USER')")
     @Operation(summary = "Place an order")
     @PostMapping
-    public OrderDto placeAnOrder(Long userId, OrderDto orderDto) {
-        return orderService.placeAnOrder(userId, orderMapper
-                .toEntity(orderDto));
+    public OrderDto createOrder(@RequestBody OrderRequestDto orderRequestDto) {
+        return orderService.createOrder(orderMapper
+                .toEntity(orderRequestDto));
     }
 
     @PreAuthorize("hasRole('USER')")
@@ -41,6 +45,7 @@ public class OrderController {
         return orderService.getAllOrders(pageable);
     }
 
+    @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Update order status")
     @PatchMapping("/{id}")

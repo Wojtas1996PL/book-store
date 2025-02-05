@@ -26,10 +26,13 @@ public class OrderServiceImpl implements OrderService {
     private final UserRepository userRepository;
 
     @Override
-    public OrderDto placeAnOrder(Long userId, Order order) {
-        User user = userRepository.findById(userId)
+    public OrderDto createOrder(Order order) {
+        User user = userRepository.findById(order.getUser().getId())
                 .orElseThrow(() -> new EntityNotFoundException("User with id: "
-                        + userId + " does not exist in a database"));
+                        + order.getUser().getId() + " does not exist in a database"));
+        if (user == null) {
+            throw new RuntimeException("User is null");
+        }
         user.getShoppingCart().setOrder(order);
         userRepository.save(user);
         return orderMapper.toDto(order);
