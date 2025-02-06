@@ -40,3 +40,6 @@ databaseChangeLog:
               - column:
                   name: role_name
                   type: varchar(255)
+              - column:
+                  name: shopping_cart_id
+                  type: bigint
