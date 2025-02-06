@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-table-categories
+      id: create-table-order_items
       author: mw
       changes:
         - createTable:
-            tableName: categories
+            tableName: order_items
             columns:
               - column:
                   name: id
@@ -14,21 +14,16 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: name
-                  type: varchar(255)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: description
-                  type: varchar(255)
-              - column:
-                  name: is_deleted
-                  type: bit
+                  name: quantity
+                  type: integer
                   constraints:
                     nullable: false
               - column:
                   name: book_id
                   type: bigint
               - column:
-                  name: category_id
+                  name: order_id
                   type: bigint
+              - column:
+                  name: price
+                  type: decimal

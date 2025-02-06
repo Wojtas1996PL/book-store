@@ -7,3 +7,13 @@ databaseChangeLog:
       file: db/changelog/changes/add-new-users.yaml
   - include:
       file: db/changelog/changes/create-table-categories.yaml
+  - include:
+      file: db/changelog/changes/create-table-cart.items.yaml
+  - include:
+      file: db/changelog/changes/create-table-orders.yaml
+  - include:
+      file: db/changelog/changes/create-table-order.items.yaml
+  - include:
+      file: db/changelog/changes/create-table-roles.yaml
+  - include:
+      file: db/changelog/changes/create-table-shopping.carts.yaml
