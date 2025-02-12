@@ -6,6 +6,8 @@ databaseChangeLog:
   - include:
       file: db/changelog/changes/add-new-users.yaml
   - include:
+      file: db/changelog/changes/add-new-books.yaml
+  - include:
       file: db/changelog/changes/create-table-categories.yaml
   - include:
       file: db/changelog/changes/create-table-cart.items.yaml

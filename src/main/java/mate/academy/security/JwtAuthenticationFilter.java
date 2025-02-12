@@ -34,12 +34,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     null,
                     userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            filterChain.doFilter(request, response);
         }
+        filterChain.doFilter(request, response);
     }
 
     private String getToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authentication");
+        String bearerToken = request.getHeader("Authorization");
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }

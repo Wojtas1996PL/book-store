@@ -1,0 +1,47 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-new-books
+      author: mw
+      changes:
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: title
+                  value: "harry potter"
+              - column:
+                  name: author
+                  value: "J.K. Rowling"
+              - column:
+                  name: isbn
+                  value: "123"
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+              - column:
+                  name: price
+                  value: 122
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: title
+                  value: "Game of Thrones"
+              - column:
+                  name: author
+                  value: "George R. Martin"
+              - column:
+                  name: isbn
+                  value: "13"
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+              - column:
+                  name: price
+                  value: 192

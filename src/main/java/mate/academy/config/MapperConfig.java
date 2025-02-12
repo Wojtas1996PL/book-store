@@ -9,7 +9,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
         injectionStrategy = InjectionStrategy.CONSTRUCTOR,
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE,
-        implementationPackage = "<PACKAGE_NAME>.impl"
+        implementationPackage = "mate.academy.mapper.impl"
 )
 public class MapperConfig {
 }
