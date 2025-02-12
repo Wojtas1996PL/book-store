@@ -13,9 +13,11 @@ import mate.academy.security.AuthenticationService;
 import mate.academy.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Authentication management")
 @RequiredArgsConstructor
+@RestController
 public class AuthenticationController {
     private final UserService userService;
     private final AuthenticationService authenticationService;
