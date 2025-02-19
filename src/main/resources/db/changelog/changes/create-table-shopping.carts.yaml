@@ -14,9 +14,6 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: user_id
-                  type: bigint
-              - column:
                   name: is_deleted
                   type: bit
                   constraints:
@@ -25,7 +22,7 @@ databaseChangeLog:
                   name: order_id
                   type: bigint
               - column:
-                  name: user
-                  type: varbinary(255)
-
-
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false

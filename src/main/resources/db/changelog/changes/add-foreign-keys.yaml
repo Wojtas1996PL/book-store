@@ -1,0 +1,102 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-foreign-keys
+      author: mw
+      changes:
+        - addForeignKeyConstraint:
+            baseTableName: book_categories
+            baseColumnNames: book_id
+            referencedTableName: books
+            referencedColumnNames: id
+            constraintName: fk_book_categories_book
+
+        - addForeignKeyConstraint:
+            baseTableName: book_categories
+            baseColumnNames: category_id
+            referencedTableName: categories
+            referencedColumnNames: id
+            constraintName: fk_book_categories_category
+
+        - addForeignKeyConstraint:
+            baseTableName: cart_items
+            baseColumnNames: shopping_cart_id
+            referencedTableName: shopping_carts
+            referencedColumnNames: id
+            constraintName: fk_cart_items_shopping_cart
+
+        - addForeignKeyConstraint:
+            baseTableName: user_roles
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_user_roles_user
+
+        - addForeignKeyConstraint:
+            baseTableName: user_roles
+            baseColumnNames: role_id
+            referencedTableName: roles
+            referencedColumnNames: id
+            constraintName: fk_user_roles_roles
+
+        - addForeignKeyConstraint:
+            baseTableName: users
+            baseColumnNames: shopping_cart_id
+            referencedTableName: shopping_carts
+            referencedColumnNames: id
+            constraintName: fk_shopping_cart_user
+
+        - addForeignKeyConstraint:
+            baseTableName: shopping_carts
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_user_shopping_cart
+
+        - addForeignKeyConstraint:
+            baseTableName: orders
+            baseColumnNames: user_id
+            referencedTableName: users
+            referencedColumnNames: id
+            constraintName: fk_user_order
+
+        - addForeignKeyConstraint:
+            baseTableName: orders
+            baseColumnNames: shopping_cart_id
+            referencedTableName: shopping_carts
+            referencedColumnNames: id
+            constraintName: fk_shopping_cart_order
+
+        - addForeignKeyConstraint:
+            baseTableName: shopping_carts
+            baseColumnNames: order_id
+            referencedTableName: orders
+            referencedColumnNames: id
+            constraintName: fk_order_shopping_cart
+
+        - addForeignKeyConstraint:
+              baseTableName: cart_items
+              baseColumnNames: shopping_cart_id
+              referencedTableName: shopping_carts
+              referencedColumnNames: id
+              constraintName: fk_shopping_cart_cart_items
+
+        - addForeignKeyConstraint:
+              baseTableName: cart_items
+              baseColumnNames: book_id
+              referencedTableName: books
+              referencedColumnNames: id
+              constraintName: fk_book_cart_items
+
+        - addForeignKeyConstraint:
+              baseTableName: order_items
+              baseColumnNames: order_id
+              referencedTableName: orders
+              referencedColumnNames: id
+              constraintName: fk_order_order_items
+
+        - addForeignKeyConstraint:
+              baseTableName: order_items
+              baseColumnNames: book_id
+              referencedTableName: books
+              referencedColumnNames: id
+              constraintName: fk_book_order_items

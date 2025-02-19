@@ -20,13 +20,14 @@ import org.hibernate.annotations.Where;
 @Entity
 @Table(name = "shopping_carts")
 @Data
-@SQLDelete(sql = "UPDATE shopping_carts SET isDeleted = true WHERE id =?")
-@Where(clause = "isDeleted = false")
+@SQLDelete(sql = "UPDATE shopping_carts SET is_deleted = true WHERE id =?")
+@Where(clause = "is_deleted = false")
 public class ShoppingCart implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
+    @OneToOne
     private User user;
     @OneToMany(mappedBy = "shoppingCart",
             cascade = CascadeType.ALL,

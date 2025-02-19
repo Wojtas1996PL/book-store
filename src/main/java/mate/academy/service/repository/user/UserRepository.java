@@ -9,8 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
-    @Query(value = "SELECT id, email, first_name, last_name, shipping_address "
-            + "FROM users WHERE UPPER(email) LIKE UPPER(:email)",
-            nativeQuery = true)
+    @Query(value = "SELECT u FROM User u LEFT JOIN FETCH u.roles "
+            + "WHERE UPPER(u.email) = UPPER(:email)")
     Optional<User> findUserByEmail(String email);
 }

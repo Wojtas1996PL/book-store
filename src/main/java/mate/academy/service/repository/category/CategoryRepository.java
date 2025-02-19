@@ -9,8 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long>,
         JpaSpecificationExecutor<Category> {
-    @Query(value = "SELECT id, name, description "
-            + "FROM categories WHERE id=:id",
-            nativeQuery = true)
+    @Query(value = "SELECT id, name, description, is_deleted "
+            + "FROM categories WHERE id=:id", nativeQuery = true)
     Category findCategoryById(Long id);
 }

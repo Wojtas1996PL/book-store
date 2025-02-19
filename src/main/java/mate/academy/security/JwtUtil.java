@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtUtil {
     private static final String VALUE_FOR_SECRET_STRING = "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
-    private static final long EXPIRATION = 500L;
+    private static final long EXPIRATION = 5000000000000000000L;
     private Key secret;
 
     public JwtUtil(@Value(VALUE_FOR_SECRET_STRING) String secretString) {

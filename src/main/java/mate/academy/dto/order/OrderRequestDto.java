@@ -4,9 +4,11 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
+import lombok.Data;
 import mate.academy.dto.order.item.OrderItemDto;
 import mate.academy.model.Status;
 
+@Data
 public class OrderRequestDto {
     @NotNull
     private Long userId;

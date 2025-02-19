@@ -1,0 +1,54 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-new-orders
+      author: mw
+      changes:
+        - insert:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: status
+                  value: "COMPLETED"
+              - column:
+                  name: total
+                  value: 15.99
+              - column:
+                  name: order_date
+                  value: "2025-02-18T16:59:00"
+              - column:
+                  name: shipping_address
+                  value: "Poland"
+              - column:
+                  name: shopping_cart_id
+                  value: 2
+
+        - insert:
+            tableName: orders
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: user_id
+                  value: 1
+              - column:
+                  name: status
+                  value: "PENDING"
+              - column:
+                  name: total
+                  value: 20.99
+              - column:
+                  name: order_date
+                  value: "2025-02-18T16:57:00"
+              - column:
+                  name: shipping_address
+                  value: "USA"
+              - column:
+                  name: shopping_cart_id
+                  value: 1
