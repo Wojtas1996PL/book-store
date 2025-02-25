@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
@@ -37,4 +38,31 @@ public class ShoppingCart implements Serializable {
     private boolean isDeleted = false;
     @OneToOne
     private Order order;
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (order != null ? order.hashCode() : 0);
+        result = 31 * result + (cartItems != null ? cartItems.hashCode() : 0);
+        result = 31 * result + Boolean.hashCode(isDeleted);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ShoppingCart that = (ShoppingCart) o;
+        return isDeleted == that.isDeleted
+                && Objects.equals(id, that.id)
+                && Objects.equals(user, that.user)
+                && Objects.equals(order, that.order)
+                && Objects.equals(cartItems, that.cartItems);
+    }
 }

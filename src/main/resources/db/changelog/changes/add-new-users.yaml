@@ -27,6 +27,9 @@ databaseChangeLog:
               - column:
                   name: shipping_address
                   value: "Poland"
+              - column:
+                  name: shopping_cart_id
+                  value: 1
         - insert:
             tableName: users
             columns:

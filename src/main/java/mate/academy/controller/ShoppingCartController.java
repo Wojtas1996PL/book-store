@@ -25,8 +25,8 @@ public class ShoppingCartController {
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Get shopping cart using id")
-    @GetMapping
-    public ShoppingCartDto getShoppingCartById(Long id) {
+    @GetMapping("/{id}")
+    public ShoppingCartDto getShoppingCartById(@PathVariable Long id) {
         return shoppingCartService.getById(id);
     }
 

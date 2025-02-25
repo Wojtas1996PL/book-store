@@ -11,7 +11,7 @@ databaseChangeLog:
                   value: 1
               - column:
                   name: order_id
-                  value: 2
+                  value: 1
               - column:
                   name: book_id
                   value: 2
@@ -21,7 +21,6 @@ databaseChangeLog:
               - column:
                   name: price
                   value: 99.99
-
         - insert:
             tableName: order_items
             columns:
@@ -33,10 +32,10 @@ databaseChangeLog:
                   value: 1
               - column:
                   name: book_id
-                  value: 1
+                  value: 2
               - column:
                   name: quantity
-                  value: 23
+                  value: 30
               - column:
                   name: price
-                  value: 9.99
+                  value: 19.99

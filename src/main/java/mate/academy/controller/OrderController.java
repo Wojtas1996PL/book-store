@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import mate.academy.dto.order.OrderDto;
 import mate.academy.dto.order.OrderRequestDto;
 import mate.academy.dto.order.item.OrderItemDto;
-import mate.academy.mapper.OrderMapper;
 import mate.academy.model.Status;
 import mate.academy.service.OrderService;
 import org.springframework.data.domain.Pageable;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Order management", description = "Endpoints for managing orders")
@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/orders")
 public class OrderController {
     private final OrderService orderService;
-    private final OrderMapper orderMapper;
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Place an order")
@@ -45,7 +44,8 @@ public class OrderController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Update order status")
     @PatchMapping("/{id}")
-    public OrderDto updateOrderStatus(@PathVariable Long orderId, Status status) {
+    public OrderDto updateOrderStatus(@PathVariable("id") Long orderId,
+                                      @RequestParam Status status) {
         return orderService.updateOrderStatus(orderId, status);
     }
 
@@ -57,7 +57,7 @@ public class OrderController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @Operation(summary = "Get specific order items from order")
+    @Operation(summary = "Get specific order item from order")
     @GetMapping("/{orderId}/items/{itemId}")
     public OrderItemDto getOrderItem(@PathVariable Long orderId,
                                      @PathVariable Long itemId) {

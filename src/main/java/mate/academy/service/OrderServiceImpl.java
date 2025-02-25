@@ -2,7 +2,6 @@ package mate.academy.service;
 
 import jakarta.transaction.Transactional;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import mate.academy.dto.order.OrderDto;
@@ -12,7 +11,6 @@ import mate.academy.exception.EntityNotFoundException;
 import mate.academy.mapper.OrderItemMapper;
 import mate.academy.mapper.OrderMapper;
 import mate.academy.model.Order;
-import mate.academy.model.OrderItem;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.Status;
 import mate.academy.model.User;
@@ -66,7 +64,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderDto> getAllOrders(Pageable pageable) {
-        return orderRepository.findAll(pageable).stream().map(orderMapper::toDto).toList();
+        return orderRepository.findAll(pageable)
+                .stream()
+                .map(orderMapper::toDto)
+                .toList();
     }
 
     @Transactional
@@ -81,10 +82,11 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderItemDto> getAllOrderItems(Long orderId) {
-        Order order = orderRepository.findOrderById(orderId)
+        orderRepository.findOrderById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("The order with id: "
                         + orderId + " does not exist in a database"));
-        return order.getOrderItems()
+        return orderRepository
+                .findAllOrderItems(orderId)
                 .stream()
                 .map(orderItemMapper::toDto)
                 .toList();
@@ -92,16 +94,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderItemDto getOrderItem(Long orderId, Long itemId) {
-        Order order = orderRepository.findOrderById(orderId)
+        orderRepository.findOrderById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException("The order with id: "
                         + orderId + " does not exist in a database"));
-        OrderItem item = new OrderItem();
-        Set<OrderItem> items = order.getOrderItems();
-        for (OrderItem orderItem : items) {
-            if (orderItem.getId().equals(itemId)) {
-                item = orderItem;
-            }
-        }
-        return orderItemMapper.toDto(item);
+        return orderItemMapper.toDto(orderRepository.findOrderItem(orderId, itemId));
     }
 }

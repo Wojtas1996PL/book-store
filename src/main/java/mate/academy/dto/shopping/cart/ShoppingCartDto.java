@@ -8,5 +8,6 @@ import mate.academy.dto.cart.item.CartItemDto;
 public class ShoppingCartDto {
     private Long id;
     private Long userId;
+    private Long orderId;
     private Set<CartItemDto> cartItems;
 }

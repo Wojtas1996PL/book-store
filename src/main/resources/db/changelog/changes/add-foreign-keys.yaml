@@ -18,13 +18,6 @@ databaseChangeLog:
             constraintName: fk_book_categories_category
 
         - addForeignKeyConstraint:
-            baseTableName: cart_items
-            baseColumnNames: shopping_cart_id
-            referencedTableName: shopping_carts
-            referencedColumnNames: id
-            constraintName: fk_cart_items_shopping_cart
-
-        - addForeignKeyConstraint:
             baseTableName: user_roles
             baseColumnNames: user_id
             referencedTableName: users

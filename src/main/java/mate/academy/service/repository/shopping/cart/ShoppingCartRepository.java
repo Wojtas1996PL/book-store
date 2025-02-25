@@ -5,13 +5,11 @@ import mate.academy.model.ShoppingCart;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long>,
         JpaSpecificationExecutor<ShoppingCart> {
-    @Query(value = "SELECT s "
-            + "FROM ShoppingCart s LEFT JOIN FETCH "
-            + "s.cartItems "
-            + "WHERE s.id=:id",
-            nativeQuery = true)
-    Optional<ShoppingCart> findShoppingCartById(Long id);
+    @Query(value = "SELECT s FROM ShoppingCart s LEFT JOIN FETCH "
+            + "s.cartItems c WHERE s.id = :id")
+    Optional<ShoppingCart> findShoppingCartById(@Param("id") Long id);
 }

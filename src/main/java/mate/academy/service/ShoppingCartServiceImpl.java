@@ -14,6 +14,7 @@ import mate.academy.service.repository.book.BookRepository;
 import mate.academy.service.repository.shopping.cart.ShoppingCartRepository;
 import mate.academy.service.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final BookRepository bookRepository;
     private final BookMapper bookMapper;
 
+    @Transactional
     @Override
     public ShoppingCartDto getById(Long id) {
         return shoppingCartMapper.toDto(shoppingCartRepository.findShoppingCartById(id)
