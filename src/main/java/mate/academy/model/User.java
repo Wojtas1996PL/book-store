@@ -108,4 +108,18 @@ public class User implements UserDetails {
                 && Objects.equals(roles, user.roles)
                 && Objects.equals(shoppingCart, user.shoppingCart);
     }
+
+    @Override
+    public String toString() {
+        return "User{"
+                + "id=" + id
+                + ", email='" + email + '\''
+                + ", firstName='" + firstName + '\''
+                + ", lastName='" + lastName + '\''
+                + ", shippingAddress='" + shippingAddress + '\''
+                + ", isDeleted=" + isDeleted
+                + ", rolesSize=" + (roles != null ? roles.size() : "null")
+                + ", shoppingCartId=" + (shoppingCart != null ? shoppingCart.getId() : "null")
+                + '}';
+    }
 }

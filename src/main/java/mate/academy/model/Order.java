@@ -78,4 +78,18 @@ public class Order implements Serializable {
                 && Objects.equals(orderItems, order.orderItems)
                 && Objects.equals(shoppingCart, order.shoppingCart);
     }
+
+    @Override
+    public String toString() {
+        return "Order{"
+                + "id=" + id
+                + ", userId=" + (user != null ? user.getId() : "null")
+                + ", status=" + status
+                + ", total=" + total
+                + ", orderDate=" + orderDate
+                + ", shippingAddress='" + shippingAddress + '\''
+                + ", orderItemsSize=" + (orderItems != null ? orderItems.size() : "null")
+                + ", shoppingCartId=" + (shoppingCart != null ? shoppingCart.getId() : "null")
+                + '}';
+    }
 }

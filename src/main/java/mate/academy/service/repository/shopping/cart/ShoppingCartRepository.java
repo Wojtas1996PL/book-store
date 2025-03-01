@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long>,
         JpaSpecificationExecutor<ShoppingCart> {
-    @Query(value = "SELECT s FROM ShoppingCart s LEFT JOIN FETCH "
-            + "s.cartItems c WHERE s.id = :id")
+    @Query("SELECT DISTINCT s FROM ShoppingCart s LEFT JOIN FETCH s.cartItems WHERE s.id = :id")
     Optional<ShoppingCart> findShoppingCartById(@Param("id") Long id);
 }

@@ -65,4 +65,15 @@ public class ShoppingCart implements Serializable {
                 && Objects.equals(order, that.order)
                 && Objects.equals(cartItems, that.cartItems);
     }
+
+    @Override
+    public String toString() {
+        return "ShoppingCart{"
+                + "id=" + id
+                + ", userId=" + (user != null ? user.getId() : "null")
+                + ", cartItemsSize=" + (cartItems != null ? cartItems.size() : "null")
+                + ", isDeleted=" + isDeleted
+                + ", orderId=" + (order != null ? order.getId() : "null")
+                + '}';
+    }
 }
