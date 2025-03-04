@@ -1,22 +1,24 @@
 package mate.academy.dto.order;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
+import lombok.Data;
 import mate.academy.dto.order.item.OrderItemDto;
 import mate.academy.model.Status;
 
+@Data
 public class OrderRequestDto {
-    @NotNull
+    @NotBlank
     private Long userId;
-    @NotNull
+    @NotBlank
     private Status status;
-    @NotNull
+    @NotBlank
     private BigDecimal total;
-    @NotNull
+    @NotBlank
     private LocalDateTime localDateTime;
-    @NotNull
+    @NotBlank
     private String shippingAddress;
     private Set<OrderItemDto> orderItems;
 }

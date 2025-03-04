@@ -70,7 +70,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<BookDtoWithoutCategoryIds> findBooksWithoutCategoryId(Long id,
+    public List<BookDtoWithoutCategoryIds> findBooksByCategoryId(Long id,
                                                                       Pageable pageable) {
         return bookRepository
                 .findAllByCategoryId(id, pageable)

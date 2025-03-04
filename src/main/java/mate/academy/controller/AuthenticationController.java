@@ -13,22 +13,26 @@ import mate.academy.security.AuthenticationService;
 import mate.academy.service.UserService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Authentication management")
 @RequiredArgsConstructor
+@RestController
+@RequestMapping(value = "/api/auth")
 public class AuthenticationController {
     private final UserService userService;
     private final AuthenticationService authenticationService;
 
     @Operation(summary = "Register user")
-    @PostMapping("/api/auth/registration")
+    @PostMapping("/registration")
     public UserResponseDto register(@RequestBody UserRegistrationRequestDto request)
             throws RegistrationException {
         return userService.register(request);
     }
 
     @Operation(summary = "Login user")
-    @PostMapping("/api/auth/login")
+    @PostMapping("/login")
     public UserLoginResponseDto login(@RequestBody UserLoginRequestDto loginRequest)
             throws LoginException {
         return authenticationService.authenticate(loginRequest);

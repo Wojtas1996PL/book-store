@@ -11,9 +11,11 @@ import mate.academy.model.Book;
 import mate.academy.model.CartItem;
 import mate.academy.model.ShoppingCart;
 import mate.academy.service.repository.book.BookRepository;
+import mate.academy.service.repository.cart.item.CartItemRepository;
 import mate.academy.service.repository.shopping.cart.ShoppingCartRepository;
 import mate.academy.service.repository.user.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +24,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final ShoppingCartRepository shoppingCartRepository;
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
+    private final CartItemRepository cartItemRepository;
     private final BookMapper bookMapper;
 
+    @Transactional
     @Override
     public ShoppingCartDto getById(Long id) {
         return shoppingCartMapper.toDto(shoppingCartRepository.findShoppingCartById(id)
@@ -31,11 +35,15 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
                         new EntityNotFoundException("There is no shopping cart with id: " + id)));
     }
 
+    @Transactional
     @Override
     public ShoppingCartDto addBook(Long userId, CartItemRequestDto cartItemRequestDto) {
         ShoppingCart shoppingCart = createNewShoppingCart(userId);
-        Book book = bookMapper.optionalToEntity(bookRepository
-                .findById(cartItemRequestDto.getBookId()));
+        if (bookRepository.findBookById(cartItemRequestDto.getBookId()).isEmpty()) {
+            throw new EntityNotFoundException("Book with id: "
+                    + cartItemRequestDto.getBookId() + " does not exist");
+        }
+        Book book = bookRepository.findBookById(cartItemRequestDto.getBookId()).get();
         CartItem cartItem = new CartItem();
         cartItem.setShoppingCart(shoppingCart);
         cartItem.setBook(book);
@@ -64,7 +72,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public void deleteById(Long id) {
-        shoppingCartRepository.deleteById(id);
+        cartItemRepository.deleteById(id);
     }
 
     private ShoppingCart createNewShoppingCart(Long userId) {

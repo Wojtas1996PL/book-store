@@ -1,21 +1,18 @@
 databaseChangeLog:
   - changeSet:
-      id: create-table-roles
+      id: create-table-user-roles
       author: mw
       changes:
         - createTable:
-            tableName: roles
+            tableName: user_roles
             columns:
               - column:
-                  name: id
+                  name: user_id
                   type: BIGINT
-                  autoIncrement: true
                   constraints:
-                    primaryKey: true
                     nullable: false
               - column:
-                  name: name
-                  type: VARCHAR(255)
+                  name: role_id
+                  type: BIGINT
                   constraints:
                     nullable: false
-                    unique: true

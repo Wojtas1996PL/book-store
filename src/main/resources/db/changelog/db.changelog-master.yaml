@@ -2,13 +2,11 @@ databaseChangeLog:
   - include:
       file: db/changelog/changes/create-table-books.yaml
   - include:
-      file: db/changelog/changes/create-table-users.yaml
-  - include:
-      file: db/changelog/changes/add-new-users.yaml
-  - include:
-      file: db/changelog/changes/create-table-categories.yaml
+      file: db/changelog/changes/create-table-book-categories.yaml
   - include:
       file: db/changelog/changes/create-table-cart.items.yaml
+  - include:
+      file: db/changelog/changes/create-table-categories.yaml
   - include:
       file: db/changelog/changes/create-table-orders.yaml
   - include:
@@ -17,3 +15,25 @@ databaseChangeLog:
       file: db/changelog/changes/create-table-roles.yaml
   - include:
       file: db/changelog/changes/create-table-shopping.carts.yaml
+  - include:
+      file: db/changelog/changes/create-table-user-roles.yaml
+  - include:
+      file: db/changelog/changes/create-table-users.yaml
+  - include:
+      file: db/changelog/changes/add-new-books.yaml
+  - include:
+      file: db/changelog/changes/add-new-cart-items.yaml
+  - include:
+      file: db/changelog/changes/add-new-categories.yaml
+  - include:
+      file: db/changelog/changes/add-new-order-items.yaml
+  - include:
+      file: db/changelog/changes/add-new-orders.yaml
+  - include:
+      file: db/changelog/changes/add-new-roles.yaml
+  - include:
+      file: db/changelog/changes/add-new-shopping-carts.yaml
+  - include:
+      file: db/changelog/changes/add-new-users.yaml
+  - include:
+      file: db/changelog/changes/add-foreign-keys.yaml

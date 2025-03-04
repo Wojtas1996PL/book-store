@@ -1,0 +1,35 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-new-cart-items
+      author: mw
+      changes:
+        - insert:
+            tableName: cart_items
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: quantity
+                  value: 25
+              - column:
+                  name: shopping_cart_id
+                  value: 1
+              - column:
+                  name: book_id
+                  value: 2
+        - insert:
+            tableName: cart_items
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: quantity
+                  value: 35
+              - column:
+                  name: shopping_cart_id
+                  value: 1
+              - column:
+                  name: book_id
+                  value: 2

@@ -9,6 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -22,12 +24,14 @@ import org.hibernate.annotations.Where;
 @Entity
 @Table(name = "books")
 @Data
-@SQLDelete(sql = "UPDATE books SET isDeleted = true WHERE id =?")
-@Where(clause = "isDeleted = false")
+@SQLDelete(sql = "UPDATE books SET is_deleted = true WHERE id =?")
+@Where(clause = "is_deleted = false")
+@NamedEntityGraph(name = "Book.categories",
+        attributeNodes = @NamedAttributeNode("categories"))
 public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     @NotNull
     private String title;
     @NotNull
@@ -44,7 +48,7 @@ public class Book implements Serializable {
     private boolean isDeleted = false;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "categories",
+            name = "book_categories",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )

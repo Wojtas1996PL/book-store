@@ -13,6 +13,9 @@ databaseChangeLog:
                   name: email
                   value: "bob@gmail.com"
               - column:
+                  name: password
+                  value: "$2a$12$9k45AzYMLX3lqw/olTyDreozIDbTMXbkNL82B46OGaxKLPdMY678C"
+              - column:
                   name: first_name
                   value: "Bob"
               - column:
@@ -22,8 +25,11 @@ databaseChangeLog:
                   name: is_deleted
                   valueBoolean: false
               - column:
-                  name: role_name
-                  value: "USER"
+                  name: shipping_address
+                  value: "Poland"
+              - column:
+                  name: shopping_cart_id
+                  value: 1
         - insert:
             tableName: users
             columns:
@@ -34,6 +40,9 @@ databaseChangeLog:
                   name: email
                   value: "mila@gmail.com"
               - column:
+                  name: password
+                  value: "$2a$12$9k45AzYMLX3lqw/olTyDreozIDbTMXbkNL82B46OGaxKLPdMY678C"
+              - column:
                   name: first_name
                   value: "Mila"
               - column:
@@ -43,5 +52,23 @@ databaseChangeLog:
                   name: is_deleted
                   valueBoolean: false
               - column:
-                  name: role_name
-                  value: "ADMIN"
+                  name: shipping_address
+                  value: "USA"
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  value: 1
+              - column:
+                  name: role_id
+                  value: 1
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: role_id
+                  value: 2

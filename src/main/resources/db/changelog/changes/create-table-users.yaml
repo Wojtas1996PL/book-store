@@ -8,38 +8,40 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: bigint
+                  type: BIGINT
                   autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
                   name: email
-                  type: varchar(255)
+                  type: VARCHAR(255)
                   constraints:
                     nullable: false
                     unique: true
               - column:
+                  name: password
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
                   name: first_name
-                  type: varchar(255)
+                  type: VARCHAR(255)
                   constraints:
                     nullable: false
               - column:
                   name: last_name
-                  type: varchar(255)
+                  type: VARCHAR(255)
                   constraints:
                     nullable: false
               - column:
                   name: shipping_address
-                  type: varchar(255)
+                  type: VARCHAR(255)
               - column:
                   name: is_deleted
-                  type: bit
+                  type: BIT
                   constraints:
                     nullable: false
-              - column:
-                  name: role_name
-                  type: varchar(255)
               - column:
                   name: shopping_cart_id
                   type: bigint

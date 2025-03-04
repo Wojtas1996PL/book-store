@@ -12,22 +12,26 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "shopping_carts")
 @Data
-@SQLDelete(sql = "UPDATE shopping_carts SET isDeleted = true WHERE id =?")
-@Where(clause = "isDeleted = false")
+@SQLDelete(sql = "UPDATE shopping_carts SET is_deleted = true WHERE id =?")
+@Where(clause = "is_deleted = false")
 public class ShoppingCart implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
+    @OneToOne
     private User user;
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "shoppingCart",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
@@ -36,4 +40,38 @@ public class ShoppingCart implements Serializable {
     private boolean isDeleted = false;
     @OneToOne
     private Order order;
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + (id != null ? id.hashCode() : 0);
+        result = 31 * result + (user != null ? user.hashCode() : 0);
+        result = 31 * result + (order != null ? order.hashCode() : 0);
+        result = 31 * result + Boolean.hashCode(isDeleted);
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ShoppingCart that = (ShoppingCart) o;
+        return isDeleted == that.isDeleted
+                && Objects.equals(id, that.id);
+    }
+
+    @Override
+    public String toString() {
+        return "ShoppingCart{"
+                + "id=" + id
+                + ", userId=" + (user != null ? user.getId() : "null")
+                + ", cartItemsSize=" + (cartItems != null ? cartItems.size() : "null")
+                + ", isDeleted=" + isDeleted
+                + ", orderId=" + (order != null ? order.getId() : "null")
+                + '}';
+    }
 }

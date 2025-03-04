@@ -9,4 +9,6 @@ public class CartItemRequestDto {
     private Long bookId;
     @NotBlank
     private int quantity;
+    @NotBlank
+    private Long shoppingCartId;
 }

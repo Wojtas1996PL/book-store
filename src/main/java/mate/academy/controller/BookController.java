@@ -15,23 +15,23 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Book management", description = "Endpoints for managing books")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping(value = "/books")
+@RequestMapping(value = "/api/books")
 public class BookController {
     private final BookService bookService;
     private final BookMapper bookMapper;
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Get list of all books")
     @GetMapping
     public List<BookDto> getAll(Pageable pageable) {
@@ -41,33 +41,33 @@ public class BookController {
                 .toList();
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Get specific book by id")
     @GetMapping("/{id}")
     public BookDto getBookById(@PathVariable Long id) {
         return bookMapper.toDto(bookService.findBookById(id));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Create a new book")
     @PostMapping
     public BookDto createBook(@RequestBody @Valid CreateBookRequestDto bookDto) {
         return bookService.save(bookMapper.toModel(bookDto));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Delete specific book by id")
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable Long id) {
         bookService.deleteById(id);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Update specific book by id")
     @PutMapping("/{id}")
     public String updateBook(@PathVariable Long id, @RequestBody Book book) {
         Book mappedBook = new Book();
-        mappedBook.setId(book.getId());
+        mappedBook.setId(id);
         mappedBook.setTitle(book.getTitle());
         mappedBook.setAuthor(book.getAuthor());
         mappedBook.setIsbn(book.getIsbn());
@@ -79,10 +79,10 @@ public class BookController {
         return "The book: " + mappedBook.getTitle() + " has been updated.";
     }
 
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Search books using parameters")
     @GetMapping("/search")
-    public List<BookDto> searchBooks(@RequestParam BookSearchParametersDto searchParameters,
+    public List<BookDto> searchBooks(@ModelAttribute BookSearchParametersDto searchParameters,
                                      Pageable pageable) {
         return bookService
                 .search(searchParameters, pageable)
