@@ -4,28 +4,34 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class JwtUtil {
-    private static final String VALUE_FOR_SECRET_STRING = "QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ";
-    private static final long EXPIRATION = 5000000000000000000L;
+    @Value("${jwt.secret}")
+    private String secretString;
+    @Value("${jwt.expiration}")
+    private long expiration;
     private Key secret;
 
-    public JwtUtil(@Value(VALUE_FOR_SECRET_STRING) String secretString) {
-        secret = Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8));
+    @PostConstruct
+    public void init() {
+        this.secret = Keys.hmacShaKeyFor(secretString.getBytes(StandardCharsets.UTF_8));
     }
 
     public String generateToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(secret)
                 .compact();
     }

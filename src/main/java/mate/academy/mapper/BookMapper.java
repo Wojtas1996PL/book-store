@@ -1,6 +1,5 @@
 package mate.academy.mapper;
 
-import java.util.Optional;
 import mate.academy.config.MapperConfig;
 import mate.academy.dto.book.BookDto;
 import mate.academy.dto.book.BookDtoWithoutCategoryIds;
@@ -19,8 +18,6 @@ public interface BookMapper {
     Book toEntity(CreateBookRequestDto bookDto);
 
     BookDtoWithoutCategoryIds toDtoWithoutCategories(Book book);
-
-    Book optionalToEntity(Optional<Book> optionalBook);
 
     @AfterMapping
     default void setCategoryIds(@MappingTarget BookDto bookDto, Book book) {

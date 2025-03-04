@@ -56,7 +56,6 @@ public class Order implements Serializable {
         result = 31 * result + (total != null ? total.hashCode() : 0);
         result = 31 * result + (orderDate != null ? orderDate.hashCode() : 0);
         result = 31 * result + (shippingAddress != null ? shippingAddress.hashCode() : 0);
-        result = 31 * result + (orderItems != null ? orderItems.hashCode() : 0);
         return result;
     }
 
@@ -75,7 +74,6 @@ public class Order implements Serializable {
                 && Objects.equals(total, order.total)
                 && Objects.equals(orderDate, order.orderDate)
                 && Objects.equals(shippingAddress, order.shippingAddress)
-                && Objects.equals(orderItems, order.orderItems)
                 && Objects.equals(shoppingCart, order.shoppingCart);
     }
 
@@ -88,7 +86,6 @@ public class Order implements Serializable {
                 + ", total=" + total
                 + ", orderDate=" + orderDate
                 + ", shippingAddress='" + shippingAddress + '\''
-                + ", orderItemsSize=" + (orderItems != null ? orderItems.size() : "null")
                 + ", shoppingCartId=" + (shoppingCart != null ? shoppingCart.getId() : "null")
                 + '}';
     }

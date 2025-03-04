@@ -11,10 +11,12 @@ import mate.academy.exception.EntityNotFoundException;
 import mate.academy.mapper.OrderItemMapper;
 import mate.academy.mapper.OrderMapper;
 import mate.academy.model.Order;
+import mate.academy.model.OrderItem;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.Status;
 import mate.academy.model.User;
 import mate.academy.service.repository.order.OrderRepository;
+import mate.academy.service.repository.order.item.OrderItemRepository;
 import mate.academy.service.repository.shopping.cart.ShoppingCartRepository;
 import mate.academy.service.repository.user.UserRepository;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +28,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
     private final OrderItemMapper orderItemMapper;
+    private final OrderItemRepository orderItemRepository;
     private final ShoppingCartRepository shoppingCartRepository;
     private final UserRepository userRepository;
 
@@ -42,10 +45,15 @@ public class OrderServiceImpl implements OrderService {
         order.setOrderDate(orderRequestDto.getLocalDateTime());
         order.setTotal(orderRequestDto.getTotal());
         order.setShippingAddress(orderRequestDto.getShippingAddress());
+        orderRepository.save(order);
         if (orderRequestDto.getOrderItems() != null) {
             order.setOrderItems(orderRequestDto.getOrderItems()
                     .stream()
-                    .map(orderItemMapper::toEntity)
+                    .map(orderItemDto -> {
+                        OrderItem orderItem = orderItemMapper.toEntity(orderItemDto);
+                        orderItem.setOrder(order);
+                        return orderItemRepository.save(orderItem); }
+                    )
                     .collect(Collectors.toSet()));
         }
         if (user.getShoppingCart() == null) {

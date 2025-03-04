@@ -1,5 +1,6 @@
 package mate.academy.service.repository.category;
 
+import java.util.Optional;
 import mate.academy.model.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -11,5 +12,5 @@ public interface CategoryRepository extends JpaRepository<Category, Long>,
         JpaSpecificationExecutor<Category> {
     @Query(value = "SELECT id, name, description, is_deleted "
             + "FROM categories WHERE id=:id", nativeQuery = true)
-    Category findCategoryById(Long id);
+    Optional<Category> findCategoryById(Long id);
 }

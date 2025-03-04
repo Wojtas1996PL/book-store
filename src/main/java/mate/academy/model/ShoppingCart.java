@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -30,6 +31,7 @@ public class ShoppingCart implements Serializable {
     @NotNull
     @OneToOne
     private User user;
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "shoppingCart",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
@@ -45,7 +47,6 @@ public class ShoppingCart implements Serializable {
         result = 31 * result + (id != null ? id.hashCode() : 0);
         result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (order != null ? order.hashCode() : 0);
-        result = 31 * result + (cartItems != null ? cartItems.hashCode() : 0);
         result = 31 * result + Boolean.hashCode(isDeleted);
         return result;
     }
@@ -60,10 +61,7 @@ public class ShoppingCart implements Serializable {
         }
         ShoppingCart that = (ShoppingCart) o;
         return isDeleted == that.isDeleted
-                && Objects.equals(id, that.id)
-                && Objects.equals(user, that.user)
-                && Objects.equals(order, that.order)
-                && Objects.equals(cartItems, that.cartItems);
+                && Objects.equals(id, that.id);
     }
 
     @Override
