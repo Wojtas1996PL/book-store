@@ -1,0 +1,1 @@
+delete from books where title = 'Spider-man' and price = 100;

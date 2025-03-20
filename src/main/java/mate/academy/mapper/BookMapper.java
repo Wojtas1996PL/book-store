@@ -13,9 +13,7 @@ import org.mapstruct.MappingTarget;
 public interface BookMapper {
     BookDto toDto(Book book);
 
-    Book toModel(CreateBookRequestDto createBookRequestDto);
-
-    Book toEntity(CreateBookRequestDto bookDto);
+    Book toEntity(CreateBookRequestDto createBookRequestDto);
 
     BookDtoWithoutCategoryIds toDtoWithoutCategories(Book book);
 

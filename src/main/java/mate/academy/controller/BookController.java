@@ -8,10 +8,9 @@ import lombok.RequiredArgsConstructor;
 import mate.academy.dto.book.BookDto;
 import mate.academy.dto.book.BookSearchParametersDto;
 import mate.academy.dto.book.CreateBookRequestDto;
-import mate.academy.mapper.BookMapper;
-import mate.academy.model.Book;
 import mate.academy.service.BookService;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Book management", description = "Endpoints for managing books")
@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/api/books")
 public class BookController {
     private final BookService bookService;
-    private final BookMapper bookMapper;
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Get list of all books")
@@ -37,7 +36,6 @@ public class BookController {
     public List<BookDto> getAll(Pageable pageable) {
         return bookService.findAll(pageable)
                 .stream()
-                .map(bookMapper::toDto)
                 .toList();
     }
 
@@ -45,14 +43,15 @@ public class BookController {
     @Operation(summary = "Get specific book by id")
     @GetMapping("/{id}")
     public BookDto getBookById(@PathVariable Long id) {
-        return bookMapper.toDto(bookService.findBookById(id));
+        return bookService.findBookById(id);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Create a new book")
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public BookDto createBook(@RequestBody @Valid CreateBookRequestDto bookDto) {
-        return bookService.save(bookMapper.toModel(bookDto));
+        return bookService.save(bookDto);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -65,18 +64,15 @@ public class BookController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @Operation(summary = "Update specific book by id")
     @PutMapping("/{id}")
-    public String updateBook(@PathVariable Long id, @RequestBody Book book) {
-        Book mappedBook = new Book();
-        mappedBook.setId(id);
+    public BookDto updateBook(@PathVariable Long id, @RequestBody CreateBookRequestDto book) {
+        CreateBookRequestDto mappedBook = new CreateBookRequestDto();
         mappedBook.setTitle(book.getTitle());
         mappedBook.setAuthor(book.getAuthor());
         mappedBook.setIsbn(book.getIsbn());
         mappedBook.setDescription(book.getDescription());
         mappedBook.setCoverImage(book.getCoverImage());
         mappedBook.setPrice(book.getPrice());
-        mappedBook.setDeleted(book.isDeleted());
-        bookService.updateBook(id, mappedBook);
-        return "The book: " + mappedBook.getTitle() + " has been updated.";
+        return bookService.updateBook(id, mappedBook);
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
@@ -87,7 +83,6 @@ public class BookController {
         return bookService
                 .search(searchParameters, pageable)
                 .stream()
-                .map(bookMapper::toDto)
                 .toList();
     }
 }

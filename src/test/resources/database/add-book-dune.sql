@@ -1,0 +1,1 @@
+insert into books (id, title, author, isbn, price, is_deleted) values (4, 'Dune', 'Dennis', '12', 13, false);
