@@ -1,0 +1,1 @@
+delete from books where title = 'Dune' and price = 13;

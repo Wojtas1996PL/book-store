@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import mate.academy.dto.book.BookDto;
 import mate.academy.dto.book.BookDtoWithoutCategoryIds;
 import mate.academy.dto.book.BookSearchParametersDto;
+import mate.academy.dto.book.CreateBookRequestDto;
 import mate.academy.exception.EntityNotFoundException;
 import mate.academy.mapper.BookMapper;
 import mate.academy.model.Book;
@@ -22,21 +23,22 @@ public class BookServiceImpl implements BookService {
     private final BookSpecificationBuilder bookSpecificationBuilder;
 
     @Override
-    public BookDto save(Book book) {
-        return bookMapper.toDto(bookRepository.save(book));
+    public BookDto save(CreateBookRequestDto book) {
+        return bookMapper.toDto(bookRepository.save(bookMapper.toEntity(book)));
     }
 
     @Override
-    public List<Book> findAll(Pageable pageable) {
+    public List<BookDto> findAll(Pageable pageable) {
         return bookRepository.findAll(pageable)
                 .stream()
+                .map(bookMapper::toDto)
                 .toList();
     }
 
     @Override
-    public Book findBookById(Long id) {
-        return bookRepository.findBookById(id).orElseThrow(
-                () -> new EntityNotFoundException("Can't find book with id: " + id));
+    public BookDto findBookById(Long id) {
+        return bookMapper.toDto(bookRepository.findBookById(id).orElseThrow(
+                () -> new EntityNotFoundException("Can't find book with id: " + id)));
     }
 
     @Override
@@ -45,27 +47,32 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book updateBook(Long id, Book book) {
-        return bookRepository.findBookById(id)
+    public BookDto updateBook(Long id, CreateBookRequestDto createBookRequestDto) {
+        Book updatedBook = bookRepository.findBookById(id)
                 .map(b -> {
-                    b.setAuthor(b.getAuthor());
-                    b.setIsbn(b.getIsbn());
-                    b.setDescription(b.getDescription());
-                    b.setPrice(b.getPrice());
-                    b.setCoverImage(b.getCoverImage());
-                    return bookRepository.save(book);
+                    b.setTitle(createBookRequestDto.getTitle());
+                    b.setAuthor(createBookRequestDto.getAuthor());
+                    b.setIsbn(createBookRequestDto.getIsbn());
+                    b.setDescription(createBookRequestDto.getDescription());
+                    b.setPrice(createBookRequestDto.getPrice());
+                    b.setCoverImage(createBookRequestDto.getCoverImage());
+                    return b;
                 })
-                .orElseThrow(() -> new RuntimeException("Could not update book by id: " + id));
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Could not update book by id: " + id));
+        bookRepository.save(updatedBook);
+        return bookMapper.toDto(updatedBook);
     }
 
     @Override
-    public List<Book> search(BookSearchParametersDto bookSearchParametersDto,
+    public List<BookDto> search(BookSearchParametersDto bookSearchParametersDto,
                              Pageable pageable) {
         Specification<Book> bookSpecification = bookSpecificationBuilder
                 .build(bookSearchParametersDto);
         return bookRepository.findAll(bookSpecification,
                 pageable)
                 .stream()
+                .map(bookMapper::toDto)
                 .toList();
     }
 
