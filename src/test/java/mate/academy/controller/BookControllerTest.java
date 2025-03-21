@@ -168,6 +168,7 @@ public class BookControllerTest {
         spiderManExpected.setAuthor("Stan Lee");
         spiderManExpected.setIsbn("200");
         spiderManExpected.setPrice(BigDecimal.valueOf(100));
+        spiderManExpected.setCategories(new HashSet<>());
 
         String jsonRequest = objectMapper.writeValueAsString(spiderMan);
 
@@ -184,13 +185,10 @@ public class BookControllerTest {
                         .getContentAsString(),
                         BookDto.class);
 
+        spiderManExpected.setId(spiderManActual.getId());
+
         assertNotNull(spiderManActual);
-        assertNotNull(spiderManActual.getId());
-        assertThat(spiderManActual.getTitle()).isEqualTo(spiderManExpected.getTitle());
-        assertThat(spiderManActual.getPrice()).isEqualTo(spiderManExpected.getPrice());
-        assertThat(spiderManActual.getAuthor()).isEqualTo(spiderManExpected.getAuthor());
-        assertThat(spiderManActual.getIsbn()).isEqualTo(spiderManExpected.getIsbn());
-        assertThat(spiderManActual.getDescription()).isEqualTo(spiderManExpected.getDescription());
+        assertThat(spiderManActual).isEqualTo(spiderManExpected);
     }
 
     @WithMockUser(username = "mila", roles = "ADMIN")
@@ -198,10 +196,12 @@ public class BookControllerTest {
     @DisplayName("Verify that method updateBook works")
     public void update_Book_ReturnsBookDto() throws Exception {
         BookDto starWarsExpected = new BookDto();
+        starWarsExpected.setId(1L);
         starWarsExpected.setTitle("SW");
         starWarsExpected.setIsbn("300");
         starWarsExpected.setAuthor("GL");
         starWarsExpected.setPrice(BigDecimal.valueOf(500));
+        starWarsExpected.setCategories(new HashSet<>());
 
         CreateBookRequestDto starWars = new CreateBookRequestDto();
         starWars.setTitle("SW");
@@ -222,11 +222,7 @@ public class BookControllerTest {
                         BookDto.class);
 
         assertNotNull(starWarsActual);
-        assertNotNull(starWarsActual.getId());
-        assertThat(starWarsActual.getTitle()).isEqualTo(starWarsExpected.getTitle());
-        assertThat(starWarsActual.getPrice()).isEqualTo(starWarsExpected.getPrice());
-        assertThat(starWarsActual.getIsbn()).isEqualTo(starWarsExpected.getIsbn());
-        assertThat(starWarsActual.getAuthor()).isEqualTo(starWarsExpected.getAuthor());
+        assertThat(starWarsActual).isEqualTo(starWarsExpected);
     }
 
     @WithMockUser(username = "bob", roles = "USER")

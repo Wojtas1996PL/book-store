@@ -58,7 +58,8 @@ public class BookServiceImpl implements BookService {
                     b.setCoverImage(createBookRequestDto.getCoverImage());
                     return b;
                 })
-                .orElseThrow(() -> new RuntimeException("Could not update book by id: " + id));
+                .orElseThrow(() ->
+                        new EntityNotFoundException("Could not update book by id: " + id));
         bookRepository.save(updatedBook);
         return bookMapper.toDto(updatedBook);
     }
