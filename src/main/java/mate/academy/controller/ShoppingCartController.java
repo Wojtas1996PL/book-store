@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import mate.academy.dto.cart.item.CartItemRequestDto;
 import mate.academy.dto.shopping.cart.ShoppingCartDto;
 import mate.academy.service.ShoppingCartService;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Shopping cart management", description = "Endpoints for managing shopping carts")
@@ -31,6 +33,7 @@ public class ShoppingCartController {
         return shoppingCartService.getById(id);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('ROLE_USER')")
     @Operation(summary = "Add a book to the cart")
     @PostMapping
