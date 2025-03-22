@@ -1,0 +1,10 @@
+UPDATE users SET shopping_cart_id = NULL WHERE shopping_cart_id IS NOT NULL;
+UPDATE orders SET user_id = NULL WHERE user_id IS NOT NULL;
+UPDATE orders SET shopping_cart_id = NULL WHERE shopping_cart_id IS NOT NULL;
+UPDATE cart_items SET shopping_cart_id = NULL WHERE shopping_cart_id IS NOT NULL;
+DELETE FROM cart_items;
+DELETE FROM shopping_carts;
+DELETE FROM user_roles;
+DELETE FROM order_items;
+DELETE FROM orders;
+DELETE FROM users;
