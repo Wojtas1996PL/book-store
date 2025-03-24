@@ -41,8 +41,69 @@ public class ShoppingCartControllerTest {
     @Autowired
     protected static MockMvc mockMvc;
 
+    private static User johnDoe;
+
+    private static ShoppingCart shoppingCartExpected;
+
+    private static CartItemDto cartItemDto1;
+
+    private static CartItemDto cartItemDto2;
+
+    private static ShoppingCartDto shoppingCartDtoExpected1;
+
+    private static ShoppingCartDto shoppingCartDtoExpected2;
+
+    private static CartItemRequestDto cartItemRequestDto;
+
     @Autowired
     private ObjectMapper objectMapper;
+
+    @BeforeAll
+    public static void createObjects() {
+        johnDoe = new User();
+        johnDoe.setId(1L);
+        johnDoe.setEmail("user1@example.com");
+        johnDoe.setPassword("password1");
+        johnDoe.setFirstName("John");
+        johnDoe.setLastName("Doe");
+
+        shoppingCartExpected = new ShoppingCart();
+        shoppingCartExpected.setId(1L);
+        shoppingCartExpected.setUser(johnDoe);
+        shoppingCartExpected.setCartItems(new HashSet<>());
+
+        cartItemDto1 = new CartItemDto();
+        cartItemDto1.setId(3L);
+        cartItemDto1.setShoppingCartId(1L);
+        cartItemDto1.setBookId(10L);
+        cartItemDto1.setQuantity(0);
+
+        Set<CartItemDto> cartItemDtos1 = new HashSet<>();
+        cartItemDtos1.add(cartItemDto1);
+
+        shoppingCartDtoExpected1 = new ShoppingCartDto();
+        shoppingCartDtoExpected1.setId(1L);
+        shoppingCartDtoExpected1.setUserId(1L);
+        shoppingCartDtoExpected1.setCartItems(cartItemDtos1);
+
+        cartItemRequestDto = new CartItemRequestDto();
+        cartItemRequestDto.setShoppingCartId(1L);
+        cartItemRequestDto.setBookId(10L);
+
+        cartItemDto2 = new CartItemDto();
+        cartItemDto2.setId(5L);
+        cartItemDto2.setShoppingCartId(1L);
+        cartItemDto2.setBookId(10L);
+        cartItemDto2.setQuantity(200);
+
+        Set<CartItemDto> cartItemDtos2 = new HashSet<>();
+        cartItemDtos2.add(cartItemDto2);
+
+        shoppingCartDtoExpected2 = new ShoppingCartDto();
+        shoppingCartDtoExpected2.setId(1L);
+        shoppingCartDtoExpected2.setUserId(1L);
+        shoppingCartDtoExpected2.setCartItems(cartItemDtos2);
+    }
 
     @BeforeAll
     static void beforeAll(@Autowired DataSource dataSource,
@@ -77,18 +138,6 @@ public class ShoppingCartControllerTest {
     @Test
     @DisplayName("Verify that method getShoppingCartById works")
     public void getById_ShoppingCart_ReturnsShoppingCart() throws Exception {
-        User johnDoe = new User();
-        johnDoe.setId(1L);
-        johnDoe.setEmail("user1@example.com");
-        johnDoe.setPassword("password1");
-        johnDoe.setFirstName("John");
-        johnDoe.setLastName("Doe");
-
-        ShoppingCart shoppingCartExpected = new ShoppingCart();
-        shoppingCartExpected.setId(1L);
-        shoppingCartExpected.setUser(johnDoe);
-        shoppingCartExpected.setCartItems(new HashSet<>());
-
         MvcResult result = mockMvc.perform(get("/api/cart/{id}", 1L)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -111,24 +160,6 @@ public class ShoppingCartControllerTest {
     @Test
     @DisplayName("Verify that method addBookToCart works")
     public void add_Book_ReturnsShoppingCartDto() throws Exception {
-        CartItemDto cartItemDto = new CartItemDto();
-        cartItemDto.setId(3L);
-        cartItemDto.setShoppingCartId(1L);
-        cartItemDto.setBookId(10L);
-        cartItemDto.setQuantity(0);
-
-        Set<CartItemDto> cartItemDtos = new HashSet<>();
-        cartItemDtos.add(cartItemDto);
-
-        ShoppingCartDto shoppingCartDtoExpected = new ShoppingCartDto();
-        shoppingCartDtoExpected.setId(1L);
-        shoppingCartDtoExpected.setUserId(1L);
-        shoppingCartDtoExpected.setCartItems(cartItemDtos);
-
-        CartItemRequestDto cartItemRequestDto = new CartItemRequestDto();
-        cartItemRequestDto.setShoppingCartId(1L);
-        cartItemRequestDto.setBookId(10L);
-
         String jsonRequest = objectMapper.writeValueAsString(cartItemRequestDto);
 
         MvcResult result = mockMvc.perform(post("/api/cart")
@@ -145,7 +176,7 @@ public class ShoppingCartControllerTest {
                         ShoppingCartDto.class);
 
         assertNotNull(shoppingCartDtoActual);
-        assertThat(shoppingCartDtoActual).isEqualTo(shoppingCartDtoExpected);
+        assertThat(shoppingCartDtoActual).isEqualTo(shoppingCartDtoExpected1);
     }
 
     @WithMockUser(username = "bob", roles = "USER")
@@ -158,20 +189,6 @@ public class ShoppingCartControllerTest {
     @Test
     @DisplayName("Verify that method updateBookQuantityInTheCart works")
     public void update_BookQuantity_ReturnsShoppingCartDto() throws Exception {
-        CartItemDto cartItemDto = new CartItemDto();
-        cartItemDto.setId(5L);
-        cartItemDto.setShoppingCartId(1L);
-        cartItemDto.setBookId(10L);
-        cartItemDto.setQuantity(200);
-
-        Set<CartItemDto> cartItemDtos = new HashSet<>();
-        cartItemDtos.add(cartItemDto);
-
-        ShoppingCartDto shoppingCartDtoExpected = new ShoppingCartDto();
-        shoppingCartDtoExpected.setId(1L);
-        shoppingCartDtoExpected.setUserId(1L);
-        shoppingCartDtoExpected.setCartItems(cartItemDtos);
-
         MvcResult result = mockMvc.perform(put("/api/cart/cart-items/{cartItemId}", 5)
                         .param("shoppingCartId", "1")
                         .param("quantity", "200")
@@ -186,6 +203,6 @@ public class ShoppingCartControllerTest {
                         ShoppingCartDto.class);
 
         assertNotNull(shoppingCartDtoActual);
-        assertThat(shoppingCartDtoActual).isEqualTo(shoppingCartDtoExpected);
+        assertThat(shoppingCartDtoActual).isEqualTo(shoppingCartDtoExpected2);
     }
 }
