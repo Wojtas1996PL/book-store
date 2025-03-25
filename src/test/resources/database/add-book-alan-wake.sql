@@ -1,0 +1,1 @@
+INSERT INTO books (id, title, author, isbn, price, is_deleted) VALUES (10, 'Alan Wake', 'Return', '19', 10, false);

@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import mate.academy.dto.cart.item.CartItemRequestDto;
 import mate.academy.dto.shopping.cart.ShoppingCartDto;
 import mate.academy.exception.EntityNotFoundException;
-import mate.academy.mapper.BookMapper;
 import mate.academy.mapper.ShoppingCartMapper;
 import mate.academy.model.Book;
 import mate.academy.model.CartItem;
@@ -25,7 +24,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private final UserRepository userRepository;
     private final BookRepository bookRepository;
     private final CartItemRepository cartItemRepository;
-    private final BookMapper bookMapper;
 
     @Transactional
     @Override

@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import mate.academy.dto.book.BookSearchParametersDto;
+import mate.academy.exception.EntityNotFoundException;
 import mate.academy.model.Book;
 import mate.academy.model.Category;
 import mate.academy.service.repository.SpecificationProvider;
@@ -51,7 +52,8 @@ public class BookRepositoryTest {
         harryPotterExpected.setPrice(BigDecimal.valueOf(120.99));
         bookRepository.save(harryPotterExpected);
 
-        Book harryPotterActual = bookRepository.findBookById(id).get();
+        Book harryPotterActual = bookRepository.findBookById(id).orElseThrow(()
+                -> new EntityNotFoundException("Book does not exist"));
 
         assertThat(harryPotterActual).isEqualTo(harryPotterExpected);
         assertNotNull(harryPotterActual);
