@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.HashSet;
+import mate.academy.exception.EntityNotFoundException;
 import mate.academy.model.ShoppingCart;
 import mate.academy.model.User;
 import mate.academy.service.repository.shopping.cart.ShoppingCartRepository;
@@ -42,7 +43,8 @@ public class ShoppingCartRepositoryTest {
 
         shoppingCartRepository.save(shoppingCartExpected);
 
-        ShoppingCart shoppingCartActual = shoppingCartRepository.findShoppingCartById(1L).get();
+        ShoppingCart shoppingCartActual = shoppingCartRepository.findShoppingCartById(1L)
+                .orElseThrow(() -> new EntityNotFoundException("Shopping cart does not exist"));
 
         assertNotNull(shoppingCartActual);
         assertThat(shoppingCartActual).isEqualTo(shoppingCartExpected);

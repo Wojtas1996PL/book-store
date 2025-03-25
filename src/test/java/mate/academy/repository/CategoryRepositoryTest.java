@@ -3,6 +3,7 @@ package mate.academy.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import mate.academy.exception.EntityNotFoundException;
 import mate.academy.model.Category;
 import mate.academy.service.repository.category.CategoryRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -28,7 +29,8 @@ public class CategoryRepositoryTest {
         scienceFictionExpected.setDescription("Science fiction books");
         categoryRepository.save(scienceFictionExpected);
 
-        Category scienceFictionActual = categoryRepository.findCategoryById(id).get();
+        Category scienceFictionActual = categoryRepository.findCategoryById(id).orElseThrow(()
+                -> new EntityNotFoundException("Category does not exist"));
 
         assertThat(scienceFictionActual).isEqualTo(scienceFictionExpected);
         assertNotNull(scienceFictionActual);
