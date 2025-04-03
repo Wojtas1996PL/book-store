@@ -1,3 +1,5 @@
+![title image for book store app project readme file.png](images/title%20image%20for%20book%20store%20app%20project%20readme%20file.png)
+
 Book store is an app written in Java, which allows us to manage an online store with books.
 
 The project uses many technologies and tools like:
