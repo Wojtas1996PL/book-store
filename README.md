@@ -54,7 +54,7 @@ However you can also login using basic auth as authorization instead of token.
 
 ![login basic auth.png](images/login%20basic%20auth.png)
 
-All endpoints you will find in controller package, which is divided into Authentication, Book, Category, Order and
+You will find all endpoints in controller package, which is divided into Authentication, Book, Category, Order and
 ShoppingCart. Some of them requires to use @RequestBody of certain class or record. You will find them in dto package.
 JwtUtil class is used mainly for generating tokens while JwtAuthenticationFilter checks if token is valid. I have set 
 very long time for token expiration, which helped for testing and creating this app, but you can change it in application.properties file (jwt.expiration).
